@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
+enum GameStatus {
+  PLAYING,
+  OVER,
+  START
+}
+
 class GameState {
 
   factory GameState({
     Size windowSize = const Size(1.0, 1.0),
     double gravity = -0.1,
+    GameStatus status,
   }) {
-    _instance ??= GameState._internal(windowSize: windowSize, gravity: gravity);
+    _instance ??= GameState._internal(windowSize: windowSize, gravity: gravity, status: status);
     return _instance;
   }
 
   GameState._internal({
     this.windowSize = const Size(1.0, 1.0),
     this.gravity = -0.1,
+    this.status = GameStatus.START
   }) {
 
   }
@@ -21,6 +29,7 @@ class GameState {
 
   Size windowSize;
   double gravity;
+  GameStatus status;
 
   Offset globalOffset(Offset pos) =>
     balancedOffset(pos, Offset(windowSize.width, windowSize.height));
@@ -40,3 +49,5 @@ class GameState {
       : value * -1;
 
 }
+
+ValueNotifier<GameState> gameObservable = ValueNotifier(GameState());

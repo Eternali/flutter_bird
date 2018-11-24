@@ -9,7 +9,7 @@ class Provider extends StatefulWidget {
 
   const Provider({ this.state, this.child, });
 
-  static of(BuildContext context) {
+  static FBStateObservable of(BuildContext context) {
     _InheritedProvider ip = context.inheritFromWidgetOfExactType(_InheritedProvider);
     return ip.state;
   }

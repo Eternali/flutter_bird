@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bird/data/game_state.dart';
+
 class FBState {
 
-  FBState({ this.gameOver });
+  FBState({ this.theme }) {
+  }
 
-  bool gameOver;
+  String theme;
 
-  FBState copyWith({ bool gameOver }) =>
-    FBState(gameOver: gameOver ?? this.gameOver);
+  FBState copyWith({ String theme }) =>
+    FBState(theme: theme ?? this.theme);
 
 }
 
-class FBStateObservable extends ValueNotifier {
+class FBStateObservable extends ValueNotifier<FBState> {
    FBStateObservable(FBState value) : super(value);
 }
