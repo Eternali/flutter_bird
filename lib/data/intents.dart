@@ -1,10 +1,14 @@
-import 'package:flutter_bird/data/fb_state.dart';
+import 'package:flutter_bird/data/game_state.dart';
 import 'package:flutter_bird/data/reducers.dart';
 
 class Intents {
 
-  static void changeTheme(FBStateObservable state, String theme) {
-    state.value = Reducers.changeTheme(state.value, theme);
+  static void endGame() {
+    GameState.observable.value = Reducers.changeStatus(state.value, GameStatus.OVER);
+  }
+
+  static void startGame(GameStateObservable state = GameState()) {
+    state.value = Reducers.changeStatus(state.value, GameStatus.PLAYING);
   }
 
 }

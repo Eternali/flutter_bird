@@ -22,10 +22,24 @@ class GameState {
     this.gravity = -0.1,
     this.status = GameStatus.START
   }) {
+    observable = GameStateObservable(this);
+  }
+
+  void copyWith({
+    Size windowSize,
+    double gravity,
+    GameStatus status
+  }) {
+    var newState = GameState(
+      windowSize: windowSize ?? _instance.windowSize,
+      gravity: gravity ?? _instance.gravity,
+      status: status ?? _instance.status
+    );
 
   }
 
   static GameState _instance;
+  static GameStateObservable observable;
 
   Size windowSize;
   double gravity;
@@ -48,6 +62,10 @@ class GameState {
       ? value
       : value * -1;
 
+}
+
+class GameStateObservable extends ValueNotifier<GameState> {
+  GameStateObservable(GameState value) : super(value);
 }
 
 ValueNotifier<GameState> gameObservable = ValueNotifier(GameState());

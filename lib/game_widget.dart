@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spritewidget/spritewidget.dart';
 
+import 'package:flutter_bird/data/intents.dart';
 import 'package:flutter_bird/data/game_state.dart';
 import 'package:flutter_bird/nodes/main_game.dart';
 
@@ -19,7 +20,10 @@ class _GameWidgetState extends State<GameWidget> {
   @override
   void initState() {
     super.initState();
-    gameObservable.addListener(() => setState(() {}));
+    gameObservable.addListener(() {
+      print("SETTING START");
+      setState(() {});
+    });
     // _mainNode = MainGameNode(size: widget.size);
   }
 
@@ -33,7 +37,7 @@ class _GameWidgetState extends State<GameWidget> {
             padding: EdgeInsets.all(8.0),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              gameObservable.value = GameState.copyWith(status: GameStatus.PLAYING);
+              gameObservable.value = Intents.endGame();
             },
             child: Text(
               'Play Game',

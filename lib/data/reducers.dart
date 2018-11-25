@@ -1,7 +1,12 @@
-import 'package:flutter_bird/data/fb_state.dart';
+import 'package:flutter_bird/data/game_state.dart';
 
 class Reducers {
 
-  static FBState changeTheme(FBState oldState, String theme) => oldState.copyWith(theme: theme);
+  static GameState changeStatus(GameState state, GameStatus status) {
+    state.copyWith(
+      status: status
+    );
+    return GameState();
+  }
 
 }

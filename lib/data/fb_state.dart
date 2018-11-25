@@ -15,5 +15,5 @@ class FBState {
 }
 
 class FBStateObservable extends ValueNotifier<FBState> {
-   FBStateObservable(FBState value) : super(value);
+  FBStateObservable(FBState value) : super(value);
 }
