@@ -21,9 +21,7 @@ class GameState {
     this.windowSize = const Size(1.0, 1.0),
     this.gravity = -0.1,
     this.status = GameStatus.START
-  }) {
-    observable = GameStateObservable(this);
-  }
+  });
 
   void copyWith({
     Size windowSize,
@@ -39,7 +37,6 @@ class GameState {
   }
 
   static GameState _instance;
-  static GameStateObservable observable;
 
   Size windowSize;
   double gravity;
@@ -64,8 +61,16 @@ class GameState {
 
 }
 
-class GameStateObservable extends ValueNotifier<GameState> {
-  GameStateObservable(GameState value) : super(value);
-}
+class GameStateObservable {
 
-ValueNotifier<GameState> gameObservable = ValueNotifier(GameState());
+  static ValueNotifier<GameState> _observable;
+  static ValueNotifier<GameState> get observable => _observable;
+  static set observable(dynamic newVal) {
+    if (newVal is ValueNotifier<GameState> && _observable == null) {
+      _observable = newVal;
+    } else if (newVal is GameState && _observable != null) {
+      _observable.value = newVal;
+    }
+  }
+
+}
