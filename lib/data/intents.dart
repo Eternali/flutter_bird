@@ -4,11 +4,11 @@ import 'package:flutter_bird/data/reducers.dart';
 class Intents {
 
   static void endGame() {
-    GameState.observable.value = Reducers.changeStatus(state.value, GameStatus.OVER);
+    gameObservable = Reducers.changeStatus(gameObservable.value, GameStatus.OVER);
   }
 
-  static void startGame(GameStateObservable state = GameState()) {
-    state.value = Reducers.changeStatus(state.value, GameStatus.PLAYING);
+  static void startGame() {
+    gameObservable = Reducers.changeStatus(gameObservable.value, GameStatus.PLAYING);
   }
 
 }

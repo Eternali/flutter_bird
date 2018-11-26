@@ -27,14 +27,15 @@ class BirdNode extends Node {
   @override
   void update(double dt) {
     super.update(dt);
+    final state = gameObservable.value;
 
-    if (GameState().status != GameStatus.PLAYING) {
+    if (state.status != GameStatus.PLAYING) {
       pos = initialPos;
       vel = Offset(0.0, 0.0);
       return;
     }
 
-    vel = vel.translate(0.0, GameState().regularize(GameState().gravity, Axis.vertical));
+    vel = vel.translate(0.0, state.regularize(state.gravity, Axis.vertical));
     final newPos = pos.translate(vel.dx, vel.dy);
     if (pos.dx != newPos.dx || pos.dy != newPos.dy) {
       posEvent(newPos);

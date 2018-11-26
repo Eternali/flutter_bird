@@ -11,11 +11,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  GameState _state;
-
   @override
   Widget build(BuildContext context) {
-    _state = GameState(windowSize: MediaQuery.of(context).size);
+    gameObservable = ValueNotifier<GameState>(GameState(windowSize: MediaQuery.of(context).size));
 
     return Scaffold(
       body: GameWidget(),

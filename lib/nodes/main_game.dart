@@ -6,13 +6,15 @@ import 'package:flutter_bird/nodes/bird.dart';
 
 class MainGameNode extends  NodeWithSize {
 
-  MainGameNode({ Size size, VoidCallback endGame }): super(size ?? GameState().windowSize) {
+  final state = gameObservable.value;
+
+  MainGameNode({ Size size, VoidCallback endGame }): super(size ?? gameObservable.value.windowSize) {
     player = BirdNode(
       size: 15.0,
       color: Color(0xff009999),
-      pos: GameState().globalOffset(Offset(-0.5, 0.5)),
+      pos: state.globalOffset(Offset(-0.5, 0.5)),
       posEvent: (Offset pos) {
-        if (pos.dy <= 0 || pos.dy >= GameState().windowSize.height) {
+        if (pos.dy <= 0 || pos.dy >= state.windowSize.height) {
           // vel = Offset(0.0, 0.0);
           endGame();
         }
