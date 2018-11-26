@@ -10,7 +10,7 @@ class GameState {
 
   GameState({
     this.windowSize = const Size(1.0, 1.0),
-    this.gravity = -0.1,
+    this.gravity = -0.15,
     this.status = GameStatus.START,
   });
 
@@ -40,7 +40,7 @@ class GameState {
     );
   }
 
-  double regularize(double value, Axis axis) =>
+  double regularize(double value, [ Axis axis = Axis.horizontal ]) =>
     axis == Axis.horizontal
       ? value
       : value * -1;

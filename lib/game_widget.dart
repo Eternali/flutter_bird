@@ -21,7 +21,6 @@ class _GameWidgetState extends State<GameWidget> {
   void initState() {
     super.initState();
     gameObservable.addListener(() {
-      print("SETTING START");
       setState(() {});
     });
     // _mainNode = MainGameNode(size: widget.size);

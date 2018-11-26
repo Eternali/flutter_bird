@@ -8,7 +8,7 @@ typedef PositionCallback = Future Function(Offset pos);
 
 class BirdNode extends Node {
 
-  BirdNode({ this.size, this.color, this.pos, this.posEvent }) {
+  BirdNode({ this.size, this.color, this.pos, this.jumpSpeed, this.posEvent }) {
     initialPos = pos;
   }
 
@@ -16,8 +16,13 @@ class BirdNode extends Node {
   Color color;
   Offset initialPos;
   Offset pos;
+  double jumpSpeed;
   Offset vel = Offset(0.0, 0.0);
   PositionCallback posEvent;
+
+  void jump() {
+    vel = Offset(vel.dx, -jumpSpeed);
+  }
 
   @override
   void paint(Canvas canvas) {
@@ -26,7 +31,6 @@ class BirdNode extends Node {
 
   @override
   void update(double dt) {
-    super.update(dt);
     final state = gameObservable.value;
 
     if (state.status != GameStatus.PLAYING) {
