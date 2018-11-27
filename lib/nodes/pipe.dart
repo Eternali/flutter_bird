@@ -5,17 +5,13 @@ import 'package:flutter_bird/data/game_state.dart';
 
 class PipeNode extends Node {
 
-  PipeNode({ @required this.height, this.width = 20.0, this.color = Colors.green }) {
-    top = Rect.fromLTWH(gameObservable.value.regularize(x), gameObservable.value.regularize(1.0), width, gameObservable.value.regularize(height))
-  }
+  PipeNode({ @required this.middle, @required this.height, this.width = 20.0, this.color = Colors.green });
 
+  double middle;
   double height;
   double width;
   Color color;
   double x = 1.0;
-
-  Rect top;
-  Rect bottom;
 
   bool hasCollided(Offset pos) {
 
@@ -23,13 +19,22 @@ class PipeNode extends Node {
 
   @override
   void paint(Canvas canvas) {
-    canvas.drawRect(top, Paint()..color = color);
-    canvas.drawRect(bottom, Paint()..color = color);
+    canvas.drawRect(
+      Rect.fromLTWH(gs.r(x), gs.r(1.0), width, gs.r(middle + height / 2)),
+      Paint()..color = color
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(gs.r(x), gs.r(middle - height / 2), width, gs.r(-1.0)),
+      Paint()..color = color
+    );
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+    if (gs.status == GameStatus.PLAYING) {
+      x -= gs.speed;
+    }
   }
 
 }

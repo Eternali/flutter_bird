@@ -12,21 +12,25 @@ class GameState {
     this.windowSize = const Size(1.0, 1.0),
     this.gravity = -0.15,
     this.status = GameStatus.START,
+    this.speed = 2.0,
   });
 
   GameState copyWith({
     Size windowSize,
     double gravity,
-    GameStatus status
+    GameStatus status,
+    double speed,
   }) => GameState(
     windowSize: windowSize ?? this.windowSize,
     gravity: gravity ?? this.gravity,
     status: status ?? this.status,
+    speed: speed ?? this.speed,
   );
 
   Size windowSize;
   double gravity;
   GameStatus status;
+  double speed;
 
   Offset globalOffset(Offset pos) =>
     balancedOffset(pos, Offset(windowSize.width, windowSize.height));
@@ -44,6 +48,9 @@ class GameState {
     axis == Axis.horizontal
       ? value
       : value * -1;
+  
+  // alias for shorter invocation.
+  double r(double v, [ Axis a = Axis.horizontal ]) => regularize(v, a);
 
 }
 
@@ -56,3 +63,5 @@ set gameObservable(dynamic newVal) {
     _gameObservable.value = newVal;
   }
 }
+
+GameState get gs => gameObservable?.value;

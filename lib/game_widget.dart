@@ -28,11 +28,10 @@ class _GameWidgetState extends State<GameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final state = gameObservable.value;
     return Stack(
       children: <Widget>[
         SpriteWidget(MainGameNode(endGame: Intents.endGame)),
-        state.status == GameStatus.PLAYING ? Container() : Center(
+        gs.status == GameStatus.PLAYING ? Container() : Center(
           child: RaisedButton(
             padding: EdgeInsets.all(8.0),
             color: Theme.of(context).primaryColor,
