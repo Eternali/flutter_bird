@@ -10,9 +10,10 @@ class GameState {
 
   GameState({
     this.windowSize = const Size(1.0, 1.0),
-    this.gravity = -0.15,
+    this.gravity = -0.2,
     this.status = GameStatus.START,
-    this.speed = 0.006,
+    this.speed = 0.010,
+    this.pipeFreq = 2,
   });
 
   GameState copyWith({
@@ -20,17 +21,20 @@ class GameState {
     double gravity,
     GameStatus status,
     double speed,
+    double pipeFreq,
   }) => GameState(
     windowSize: windowSize ?? this.windowSize,
     gravity: gravity ?? this.gravity,
     status: status ?? this.status,
     speed: speed ?? this.speed,
+    pipeFreq: pipeFreq ?? this.pipeFreq,
   );
 
   Size windowSize;
   double gravity;
   GameStatus status;
   double speed;
+  double pipeFreq;
 
   Offset balancedOffset(Offset pos, [ Offset parent ]) {
     parent ??= Offset(windowSize.width, windowSize.height);
@@ -64,12 +68,10 @@ class GameState {
   }
 
   double sw(double w) {
-    assert(w.abs() <= 1.0);
     return w * windowSize.width;
   }
 
   double sh(double h) {
-    assert(h.abs() <= 1.0);
     return h * windowSize.height;
   }
 

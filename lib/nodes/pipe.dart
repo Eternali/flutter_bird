@@ -5,7 +5,7 @@ import 'package:flutter_bird/data/game_state.dart';
 
 class PipeNode extends Node {
 
-  PipeNode({ @required this.middle, @required this.height, this.width = 0.1, this.color = Colors.green });
+  PipeNode({ @required this.middle, @required this.height, this.width = 0.25, this.color = Colors.green });
 
   double middle;
   double height;
@@ -13,9 +13,11 @@ class PipeNode extends Node {
   Color color;
   double x = 1.0;
 
-  bool hasCollided(Offset pos) {
-
-  }
+  bool collidesWith(Offset pos, double rad) =>
+    x < pos.dx + rad && x + width > pos.dx - rad && (
+      pos.dy + rad >= middle + height / 2 ||
+      pos.dy - rad <= middle - height / 2
+    );
 
   @override
   void paint(Canvas canvas) {
@@ -32,6 +34,7 @@ class PipeNode extends Node {
   @override
   void update(double dt) {
     super.update(dt);
+
     if (gs.status == GameStatus.PLAYING) {
       x -= gs.speed;
     }

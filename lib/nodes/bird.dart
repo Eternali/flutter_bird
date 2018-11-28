@@ -26,18 +26,20 @@ class BirdNode extends Node {
 
   @override
   void paint(Canvas canvas) {
-    canvas.drawCircle(pos, size, Paint()..color = color);
+    canvas.drawCircle(gs.balancedOffset(pos), gs.sw(size), Paint()..color = color);
   }
 
   @override
   void update(double dt) {
+    super.update(dt);
+
     if (gs.status != GameStatus.PLAYING) {
       pos = initialPos;
       vel = Offset(0.0, 0.0);
       return;
     }
 
-    vel = vel.translate(0.0, gs.regularize(gs.gravity, Axis.vertical));
+    vel = vel.translate(0.0, gs.gravity);
     final newPos = pos.translate(vel.dx, vel.dy);
     if (pos.dx != newPos.dx || pos.dy != newPos.dy) {
       posEvent(newPos);

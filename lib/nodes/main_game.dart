@@ -10,27 +10,35 @@ class MainGameNode extends  NodeWithSize {
   MainGameNode({ Size size, VoidCallback endGame }): super(size ?? gs.windowSize) {
     userInteractionEnabled = true; // enable touch events
     player = BirdNode(
-      size: 15.0,
+      size: 0.04,
       color: Color(0xff009999),
-      pos: gs.balancedOffset(Offset(-0.5, 0.5)),
-      jumpSpeed: 5.0,
+      pos: Offset(-0.5, 0.5),
+      jumpSpeed: 0.05,
       posEvent: (Offset pos) {
-        if (pos.dy <= 0 || pos.dy >= gs.windowSize.height) {
+        if (pos.dy <= -1.0 || pos.dy >= 1.0) {
+          endGame();
+        }
+        if (pipes.any((pipe) => pipe.collidesWith(pos, 15.0))) {
           endGame();
         }
       },
     );
-    pipes.add(PipeNode(
-      middle: 0.0,
-      height: 0.5
-    ));
-
     addChild(player);
-    addChild(pipes[0]);
+
+    spawnPipe();
   }
 
   BirdNode player;
+  double counter = 0;
   List<PipeNode> pipes = [];
+
+  void spawnPipe() {
+    pipes.add(PipeNode(
+      middle: (randomDouble() - 0.5) * 1.5,
+      height: randomDouble() * 0.5 + 0.25
+    ));
+    addChild(pipes.last);
+  }
 
   @override
   bool handleEvent(SpriteBoxEvent event) {
@@ -44,6 +52,20 @@ class MainGameNode extends  NodeWithSize {
   @override
   void update(double dt) {
     super.update(dt);
+
+    if (gs.status == GameStatus.PLAYING) {
+      pipes.removeWhere((pipe) {
+        final remove = pipe.x + pipe.width <= -1;
+        if (remove) removeChild(pipe);
+        return remove;
+      });
+
+      counter += dt;
+      if(counter >= gs.pipeFreq) {
+        spawnPipe();
+        counter = 0;
+      }
+    }
   }
 
 }
