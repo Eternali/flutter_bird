@@ -37,7 +37,7 @@ class BirdNode extends Node {
       return;
     }
 
-    vel = vel.translate(0.0, gs.r(gs.gravity, Axis.vertical));
+    vel = vel.translate(0.0, gs.regularize(gs.gravity, Axis.vertical));
     final newPos = pos.translate(vel.dx, vel.dy);
     if (pos.dx != newPos.dx || pos.dy != newPos.dy) {
       posEvent(newPos);

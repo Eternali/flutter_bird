@@ -5,7 +5,7 @@ import 'package:flutter_bird/data/game_state.dart';
 
 class PipeNode extends Node {
 
-  PipeNode({ @required this.middle, @required this.height, this.width = 20.0, this.color = Colors.green });
+  PipeNode({ @required this.middle, @required this.height, this.width = 0.1, this.color = Colors.green });
 
   double middle;
   double height;
@@ -20,11 +20,11 @@ class PipeNode extends Node {
   @override
   void paint(Canvas canvas) {
     canvas.drawRect(
-      Rect.fromLTWH(gs.r(x), gs.r(1.0), width, gs.r(middle + height / 2)),
+      Rect.fromLTRB(gs.bx(x), gs.by(1.0), gs.bx(x + width), gs.by(middle + height / 2)),
       Paint()..color = color
     );
     canvas.drawRect(
-      Rect.fromLTWH(gs.r(x), gs.r(middle - height / 2), width, gs.r(-1.0)),
+      Rect.fromLTRB(gs.bx(x), gs.by(middle - height / 2), gs.bx(x + width), gs.by(-1.0)),
       Paint()..color = color
     );
   }

@@ -12,7 +12,7 @@ class MainGameNode extends  NodeWithSize {
     player = BirdNode(
       size: 15.0,
       color: Color(0xff009999),
-      pos: gs.globalOffset(Offset(-0.5, 0.5)),
+      pos: gs.balancedOffset(Offset(-0.5, 0.5)),
       jumpSpeed: 5.0,
       posEvent: (Offset pos) {
         if (pos.dy <= 0 || pos.dy >= gs.windowSize.height) {
