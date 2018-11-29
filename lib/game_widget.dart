@@ -44,6 +44,17 @@ class _GameWidgetState extends State<GameWidget> {
             ),
           ),
         ),
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Container(
+            padding: const EdgeInsets.only(top: 4, left: 8),
+            child: Text(
+              gs.score.toString(),
+              style: Theme.of(context).textTheme.body1.copyWith(fontSize: 28.0),
+            ),
+          ),
+        ),
       ]
     );
   }

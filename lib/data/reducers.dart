@@ -8,4 +8,10 @@ class Reducers {
     );
   }
 
+  static GameState incScore(GameState state) {
+    return state.copyWith(
+      score: state.score + 1
+    );
+  }
+
 }

@@ -4,7 +4,7 @@ import 'package:spritewidget/spritewidget.dart';
 
 import 'package:flutter_bird/data/game_state.dart';
 
-typedef PositionCallback = Future Function(Offset pos);
+typedef PositionCallback = Future Function(Offset lastPos, Offset pos, double rad);
 
 class BirdNode extends Node {
 
@@ -42,7 +42,7 @@ class BirdNode extends Node {
     vel = vel.translate(0.0, gs.gravity);
     final newPos = pos.translate(vel.dx, vel.dy);
     if (pos.dx != newPos.dx || pos.dy != newPos.dy) {
-      posEvent(newPos);
+      posEvent(pos, newPos, size);
       pos = newPos;
     }
   }

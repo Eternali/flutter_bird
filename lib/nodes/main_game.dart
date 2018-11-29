@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spritewidget/spritewidget.dart';
 
 import 'package:flutter_bird/data/game_state.dart';
+import 'package:flutter_bird/data/intents.dart';
 import 'package:flutter_bird/nodes/bird.dart';
 import 'package:flutter_bird/nodes/pipe.dart';
 
@@ -14,12 +15,20 @@ class MainGameNode extends  NodeWithSize {
       color: Color(0xff009999),
       pos: Offset(-0.5, 0.5),
       jumpSpeed: 0.05,
-      posEvent: (Offset pos) {
+      posEvent: (Offset lastPos, Offset pos, double rad) {
         if (pos.dy <= -1.0 || pos.dy >= 1.0) {
           endGame();
         }
-        if (pipes.any((pipe) => pipe.collidesWith(pos, 15.0))) {
-          endGame();
+        if (pipes.any((pipe) => pipe.collidesWith(pos, rad))) {
+          // endGame();
+        }
+
+        for (var pipe in pipes) {
+          // if we just passed a pipe increment the score
+          if (pipe.x + pipe.width < pos.dx + rad && pipe.x + pipe.width >= lastPos.dx + rad) {
+            Intents.incScore();
+            break;
+          }
         }
       },
     );
@@ -43,6 +52,7 @@ class MainGameNode extends  NodeWithSize {
   @override
   bool handleEvent(SpriteBoxEvent event) {
     if (event.type == PointerDownEvent) {
+      // print('jumping');
       player.jump();
     }
 
