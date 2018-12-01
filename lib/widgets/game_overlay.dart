@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:spritewidget/spritewidget.dart';
 
-import 'package:flutter_bird/data/intents.dart';
 import 'package:flutter_bird/data/game_state.dart';
-import 'package:flutter_bird/nodes/main_game.dart';
-// import 'package:flutter_bird/widgets/game_overlay.dart';
+import 'package:flutter_bird/data/intents.dart';
 
-class GameWidget extends StatefulWidget {
+class GameOverlay extends StatefulWidget {
 
-  GameWidget();
-
-  State<GameWidget> createState() =>  _GameWidgetState();
+  @override
+  State<GameOverlay> createState() => _GameOverlayState();
 
 }
 
-class _GameWidgetState extends State<GameWidget> {
-
-  // This must be initialized outside of the build method.
-  final _mainNode = MainGameNode(endGame: Intents.endGame);
+class _GameOverlayState extends State<GameOverlay> {
 
   @override
   void initState() {
@@ -29,9 +22,8 @@ class _GameWidgetState extends State<GameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: <Widget>[
-        SpriteWidget(_mainNode),
         gs.status == GameStatus.PLAYING ? Container() : Center(
           child: RaisedButton(
             padding: EdgeInsets.all(8.0),
@@ -56,7 +48,7 @@ class _GameWidgetState extends State<GameWidget> {
             ),
           ),
         ),
-      ]
+      ],
     );
   }
 

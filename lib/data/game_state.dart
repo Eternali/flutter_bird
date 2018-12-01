@@ -10,7 +10,7 @@ class GameState {
 
   GameState({
     this.windowSize = const Size(1.0, 1.0),
-    this.gravity = -0.00001,
+    this.gravity = -0.0006,
     this.status = GameStatus.START,
     this.speed = 0.01,
     this.pipeFreq = 2,

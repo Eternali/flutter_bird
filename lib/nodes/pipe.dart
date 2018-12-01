@@ -5,13 +5,17 @@ import 'package:flutter_bird/data/game_state.dart';
 
 class PipeNode extends Node {
 
-  PipeNode({ @required this.middle, @required this.height, this.width = 0.25, this.color = Colors.green });
+  PipeNode({ @required this.middle, @required this.height, this.width = 0.25, this.color = Colors.green }) {
+    x = 1.0;
+    lastX = x;
+  }
 
   double middle;
   double height;
   double width;
   Color color;
-  double x = 1.0;
+  double x;
+  double lastX;
 
   bool collidesWith(Offset pos, double rad) =>
     x < pos.dx + rad && x + width > pos.dx - rad && (
@@ -36,6 +40,7 @@ class PipeNode extends Node {
     super.update(dt);
 
     if (gs.status == GameStatus.PLAYING) {
+      lastX = x;
       x -= gs.speed;
     }
   }

@@ -10,22 +10,28 @@ class MainGameNode extends  NodeWithSize {
 
   MainGameNode({ Size size, VoidCallback endGame }): super(size ?? gs.windowSize) {
     userInteractionEnabled = true; // enable touch events
+    this.endGame = () {
+      pipes.forEach((pipe) { removeChild(pipe); });
+      pipes.clear();
+      counter = gs.pipeFreq;
+      endGame();
+    };
     player = BirdNode(
       size: 0.04,
       color: Color(0xff009999),
       pos: Offset(-0.5, 0.5),
-      jumpSpeed: 0.05,
-      posEvent: (Offset lastPos, Offset pos, double rad) {
+      jumpSpeed: 0.02,
+      posEvent: (Offset pos, double rad) {
         if (pos.dy <= -1.0 || pos.dy >= 1.0) {
-          endGame();
+          this.endGame();
         }
         if (pipes.any((pipe) => pipe.collidesWith(pos, rad))) {
-          // endGame();
+          this.endGame();
         }
 
         for (var pipe in pipes) {
           // if we just passed a pipe increment the score
-          if (pipe.x + pipe.width < pos.dx + rad && pipe.x + pipe.width >= lastPos.dx + rad) {
+          if (pipe.x + pipe.width < pos.dx - rad && pipe.lastX + pipe.width >= pos.dx - rad) {
             Intents.incScore();
             break;
           }
@@ -40,6 +46,7 @@ class MainGameNode extends  NodeWithSize {
   BirdNode player;
   double counter = 0;
   List<PipeNode> pipes = [];
+  VoidCallback endGame;
 
   void spawnPipe() {
     pipes.add(PipeNode(
