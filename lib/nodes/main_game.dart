@@ -5,6 +5,7 @@ import 'package:flutter_bird/data/game_state.dart';
 import 'package:flutter_bird/data/intents.dart';
 import 'package:flutter_bird/nodes/bird.dart';
 import 'package:flutter_bird/nodes/pipe.dart';
+import 'package:flutter_bird/nodes/background.dart';
 
 class MainGameNode extends  NodeWithSize {
 
@@ -16,6 +17,7 @@ class MainGameNode extends  NodeWithSize {
       counter = gs.pipeFreq;
       endGame();
     };
+    background = BackgroundNode();
     player = BirdNode(
       size: 0.04,
       color: Color(0xff009999),
@@ -38,11 +40,13 @@ class MainGameNode extends  NodeWithSize {
         }
       },
     );
-    addChild(player);
 
+    addChild(background);
+    addChild(player);
     spawnPipe();
   }
 
+  BackgroundNode background;
   BirdNode player;
   double counter = 0;
   List<PipeNode> pipes = [];
@@ -51,7 +55,7 @@ class MainGameNode extends  NodeWithSize {
   void spawnPipe() {
     pipes.add(PipeNode(
       middle: (randomDouble() - 0.5) * 1.5,
-      height: randomDouble() * 0.5 + 0.25
+      height: randomDouble() * 0.25 + 0.35
     ));
     addChild(pipes.last);
   }
