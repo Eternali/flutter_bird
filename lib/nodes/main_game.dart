@@ -20,7 +20,7 @@ class MainGameNode extends  NodeWithSize {
     background = BackgroundNode();
     player = BirdNode(
       size: 0.04,
-      color: Color(0xff009999),
+      color: Colors.amber, // Color(0xff009999),
       pos: Offset(-0.5, 0.5),
       jumpSpeed: 0.02,
       posEvent: (Offset pos, double rad) {
@@ -54,7 +54,7 @@ class MainGameNode extends  NodeWithSize {
 
   void spawnPipe() {
     pipes.add(PipeNode(
-      middle: (randomDouble() - 0.5) * 1.5,
+      middle: randomSignedDouble() * 0.75,
       height: randomDouble() * 0.25 + 0.35
     ));
     addChild(pipes.last);
