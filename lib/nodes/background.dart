@@ -12,25 +12,18 @@ class BackgroundNode extends Node {
       Offset(-1, -1),
       Offset(-1, randomSignedDouble() * 0.5)
     ]);
-    generatePoint(40);
-    print(points);
+    generatePoint(10);
   }
 
   Color color;
-  final pointInterval = 0.05;
-  final slope = 0.05;
+  final pointInterval = 0.2;
+  final slope = 0.1;
   List<Offset> points = [];
 
-  void generatePoint(int numPoints) {
+  void generatePoint([ int numPoints = 1 ]) {
     for (var n = 0; n < numPoints; n++) {
       points.add(Offset(points.last.dx + pointInterval, points.last.dy + randomSignedDouble() * slope));
     }
-    final before = points.length;
-    points.removeWhere((point) => point.dx < -1);
-    final removed = before - points.length;
-    points.forEach((point) {
-      point.translate(-removed * pointInterval, 0);
-    });
   }
 
   @override
@@ -48,9 +41,9 @@ class BackgroundNode extends Node {
     super.update(dt);
 
     if (gs.status == GameStatus.PLAYING) {
-      points.forEach((point) {
-        point.translate(-gs.speed, 0);
-      });
+      for (var p = 2; p < points.length; p++) points[p] = points[p].translate(-gs.speed, 0);
+      points.removeWhere((point) => point.dx < -1 - pointInterval);
+      if (points.last.dx < 1) generatePoint();
     }
   }
 
