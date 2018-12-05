@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:spritewidget/spritewidget.dart';
 
+import 'package:flutter_bird/util.dart';
 import 'package:flutter_bird/data/game_state.dart';
+import 'package:flutter_bird/noise/perlin2.dart';
 
-class BackgroundNode extends Node {
+class BackgroundPerlinNode extends Node {
 
-  BackgroundNode({ this.color = Colors.blueGrey, this.parallax = 0.75 }) {
+  BackgroundPerlinNode({ this.color = Colors.blueGrey, this.parallax = 0.75, this.min = -1, this.max = 1 }) {
+    perlin = Perlin2(randomInt(100000));
     points.addAll([
       Offset(1, -1),
       Offset(-1, -1),
-      Offset(-1, randomSignedDouble() * 0.5)
+      Offset(-1, remap(perlin.noise(0, perlinPos), -1, 1, min, max))
     ]);
     generatePoint((2 / pointInterval).ceil());
   }
 
+  double min, max;
   Color color;
+  Perlin2 perlin;
+  double perlinPos = 0;
   double parallax;
-  final pointInterval = 0.05;
-  final slope = 0.01;
+  final pointInterval = 0.01;
+  final slope = 0.008;
   List<Offset> points = [];
 
   void generatePoint([ int numPoints = 1 ]) {
     for (var n = 0; n < numPoints; n++) {
-      points.add(Offset(points.last.dx + pointInterval, points.last.dy + randomSignedDouble() * slope));
+      perlinPos += slope;
+      points.add(Offset(points.last.dx + pointInterval, remap(perlin.noise(0, perlinPos), -1, 1, min, max)));
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:flutter_bird/data/intents.dart';
 import 'package:flutter_bird/nodes/bird.dart';
 import 'package:flutter_bird/nodes/pipe.dart';
 import 'package:flutter_bird/nodes/background.dart';
+import 'package:flutter_bird/nodes/background_perlin.dart';
 
 class MainGameNode extends  NodeWithSize {
 
@@ -17,7 +18,8 @@ class MainGameNode extends  NodeWithSize {
       counter = gs.pipeFreq;
       endGame();
     };
-    background = BackgroundNode();
+    farBackground = BackgroundPerlinNode(color: Colors.blueGrey.withAlpha(150), parallax: 0.25, min: 0);
+    background = BackgroundPerlinNode(max: 0.5);
     player = BirdNode(
       size: 0.04,
       color: Colors.amber, // Color(0xff009999),
@@ -41,12 +43,14 @@ class MainGameNode extends  NodeWithSize {
       },
     );
 
+    addChild(farBackground);
     addChild(background);
     addChild(player);
     spawnPipe();
   }
 
-  BackgroundNode background;
+  BackgroundPerlinNode farBackground;
+  BackgroundPerlinNode background;
   BirdNode player;
   double counter = 0;
   List<PipeNode> pipes = [];
