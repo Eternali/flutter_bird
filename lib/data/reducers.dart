@@ -4,7 +4,9 @@ typedef Reducer = GameState Function();
 
 class Reducers {
 
-  static GameState combine(GameState origState, List<Function> reducers)
+  static GameState combine(GameState origState, List<Function> reducers) {
+    return reducers.fold(origState, (GameState state, Function func) => func(state));
+  }
 
   static GameState changeStatus(GameState state, GameStatus status) {
     return state.copyWith(
