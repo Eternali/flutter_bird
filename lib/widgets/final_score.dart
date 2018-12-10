@@ -58,7 +58,7 @@ class _FinalScoreState extends State<FinalScore> with SingleTickerProviderStateM
             children: <Widget>[
               Container(
                 child: Text(
-                  getHighScore(),
+                  'High Score: ${gs.highScore}',
                 ),
               ),
               Opacity(

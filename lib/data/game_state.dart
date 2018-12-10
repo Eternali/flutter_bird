@@ -15,6 +15,7 @@ class GameState {
     this.speed = 0.01,
     this.pipeFreq = 2,
     this.score = 0,
+    this.highScore = 0,
   });
 
   GameState copyWith({
@@ -24,6 +25,7 @@ class GameState {
     double speed,
     double pipeFreq,
     int score,
+    int highScore,
   }) => GameState(
     windowSize: windowSize ?? this.windowSize,
     gravity: gravity ?? this.gravity,
@@ -31,6 +33,7 @@ class GameState {
     speed: speed ?? this.speed,
     pipeFreq: pipeFreq ?? this.pipeFreq,
     score: score ?? this.score,
+    highScore: highScore ?? this.highScore,
   );
 
   Size windowSize;
@@ -39,6 +42,7 @@ class GameState {
   double speed;
   double pipeFreq;
   int score;
+  int highScore;
 
   Offset balancedOffset(Offset pos, [ Offset parent ]) {
     parent ??= Offset(windowSize.width, windowSize.height);

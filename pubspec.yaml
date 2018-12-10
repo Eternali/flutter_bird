@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  path_provider: ^0.4.1
   spritewidget: ^0.9.17
 
   cupertino_icons: ^0.1.2
