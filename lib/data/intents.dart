@@ -8,13 +8,17 @@ import 'package:flutter_bird/data/reducers.dart';
 
 class Intents {
 
-  static void endGame([ GameState state ]) {
+  static void endGame([ GameState state ]) async {
     state ??= gs;
     if (state.score > state.highScore) {
       // gameObservable = Reducers.newHighScore(state);
-      saveHighScore();
+      await saveHighScore();
       // debugPrint(gs.highScore.toString());
     }
+    // gameObservable = Reducers.combine(state, [
+    //   (s) => Reducers.changeStatus(state, GameStatus.OVER),
+    //   (s) => Reducers.newHighScore(s)
+    // ]);
     gameObservable = Reducers.changeStatus(state, GameStatus.OVER).copyWith(score: 0, highScore: state.score > state.highScore ? state.score : state.highScore);
   }
 
@@ -39,7 +43,7 @@ class Intents {
     gameObservable = Reducers.loadHighScore(state, jsonDecode(read)['highScore'] ?? 0);
   }
 
-  static void saveHighScore([ GameState state ]) async {
+  static Future saveHighScore([ GameState state ]) async {
     state ??= gs;
     final file = await getApplicationDocumentsDirectory().then((dir) => File('${dir.path}/state.json')..create());
     await file.writeAsString(jsonEncode({ 'highScore': state.highScore }));
