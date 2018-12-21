@@ -11,20 +11,20 @@ class Intents {
   static void endGame([ GameState state ]) async {
     state ??= gs;
     if (state.score > state.highScore) {
-      // gameObservable = Reducers.newHighScore(state);
       await saveHighScore();
-      // debugPrint(gs.highScore.toString());
     }
-    // gameObservable = Reducers.combine(state, [
-    //   (s) => Reducers.changeStatus(state, GameStatus.OVER),
-    //   (s) => Reducers.newHighScore(s)
-    // ]);
-    gameObservable = Reducers.changeStatus(state, GameStatus.OVER).copyWith(score: 0, highScore: state.score > state.highScore ? state.score : state.highScore);
+    gameObservable = Reducers.combine(state, [
+      (s) => Reducers.changeStatus(s, GameStatus.OVER),
+      (s) => Reducers.newHighScore(s)
+    ]);
   }
 
   static void startGame([ GameState state ]) {
     state ??= gs;
-    gameObservable = Reducers.changeStatus(state, GameStatus.PLAYING);
+    gameObservable = Reducers.combine(state, [
+      (s) => Reducers.changeStatus(s, GameStatus.PLAYING),
+      (s) => Reducers.reset(s)
+    ]);
   }
 
   static void incScore([ GameState state ]) {
@@ -34,7 +34,7 @@ class Intents {
 
   static void loadHighScore([ GameState state ]) async {
     state ??= gs;
-    final file = await getApplicationDocumentsDirectory().then((dir) => File('${dir.path}/state.json')..create());
+    final file = await getApplicationDocumentsDirectory().then((dir) => File('${dir.path}/state.json'));
     String read = await file.readAsString();
     if (read.length <= 0) {
       read = jsonEncode({ 'highScore': 0 });
@@ -45,7 +45,7 @@ class Intents {
 
   static Future saveHighScore([ GameState state ]) async {
     state ??= gs;
-    final file = await getApplicationDocumentsDirectory().then((dir) => File('${dir.path}/state.json')..create());
+    final file = await getApplicationDocumentsDirectory().then((dir) => File('${dir.path}/state.json'));
     await file.writeAsString(jsonEncode({ 'highScore': state.highScore }));
   }
 

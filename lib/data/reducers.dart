@@ -1,11 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter_bird/data/game_state.dart';
 
-typedef Reducer = GameState Function();
+typedef Reducer = GameState Function(GameState);
 
 class Reducers {
 
-  static GameState combine(GameState origState, List<Function> reducers) {
-    return reducers.fold(origState, (GameState state, Function func) => func(state));
+  static GameState combine(GameState origState, List<Reducer> reducers) {
+    return reducers.fold(origState, (GameState state, Reducer func) => func(state));
   }
 
   static GameState changeStatus(GameState state, GameStatus status) {
@@ -25,8 +27,11 @@ class Reducers {
   }
 
   static GameState newHighScore(GameState state) {
-    if (state.highScore > state.score) return state.copyWith(highScore: state.score);
-    return state;
+    return state.copyWith(highScore: max(state.score, state.highScore));
+  }
+
+  static GameState reset(GameState state) {
+    return state.copyWith(score: 0);
   }
 
 }
