@@ -5,8 +5,7 @@ import 'package:flutter_bird/data/game_state.dart';
 import 'package:flutter_bird/data/intents.dart';
 import 'package:flutter_bird/nodes/bird.dart';
 import 'package:flutter_bird/nodes/pipe.dart';
-import 'package:flutter_bird/nodes/background.dart';
-import 'package:flutter_bird/nodes/background_perlin.dart';
+import 'package:flutter7_bird/nodes/background_perlin.dart';
 
 class MainGameNode extends  NodeWithSize {
 
@@ -67,7 +66,6 @@ class MainGameNode extends  NodeWithSize {
   @override
   bool handleEvent(SpriteBoxEvent event) {
     if (event.type == PointerDownEvent) {
-      // print('jumping');
       player.jump();
     }
 
